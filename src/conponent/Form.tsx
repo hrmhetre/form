@@ -12,6 +12,9 @@ import {
   FormControlLabel,
   InputLabel,
   Input,
+  MenuItem,
+  Select,
+  Checkbox,
 } from "@mui/material";
 
 const validationSchema = Yup.object({
@@ -28,6 +31,7 @@ const validationSchema = Yup.object({
   gender: Yup.string().required("Gender is required"),
   accountType: Yup.string().required("Account Type is required"),
   file: Yup.mixed().required("File upload is required"),
+  agreeToTerms: Yup.boolean().required(),
 });
 
 const Form: React.FC = () => {
@@ -42,16 +46,16 @@ const Form: React.FC = () => {
       gender: "",
       accountType: "",
       file: null,
+      agreeToTerms: false,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      // Handle form submission here
       console.log(values);
     },
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // Get the first selected file
+    const file = event.target.files?.[0];
     formik.setFieldValue("file", file);
   };
 
@@ -189,9 +193,8 @@ const Form: React.FC = () => {
           </Grid>
 
           <Grid item xs={6}>
-            <TextField
+            <Select
               fullWidth
-              label="Account Type"
               variant="outlined"
               name="accountType"
               value={formik.values.accountType}
@@ -199,10 +202,30 @@ const Form: React.FC = () => {
               error={
                 formik.touched.accountType && Boolean(formik.errors.accountType)
               }
-              helperText={
-                formik.touched.accountType && formik.errors.accountType
+            >
+              <MenuItem value="Savings">Savings</MenuItem>
+              <MenuItem value="Checking">Checking</MenuItem>
+              <MenuItem value="Investment">Investment</MenuItem>
+            </Select>
+            <InputLabel>Account Type</InputLabel>
+            {formik.touched.accountType && formik.errors.accountType && (
+              <div className="error">{formik.errors.accountType}</div>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="agreeToTerms"
+                  checked={formik.values.agreeToTerms}
+                  onChange={formik.handleChange}
+                />
               }
+              label="I agree to the Terms and Conditions"
             />
+            {formik.touched.agreeToTerms && formik.errors.agreeToTerms && (
+              <div className="error">{formik.errors.agreeToTerms}</div>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">
