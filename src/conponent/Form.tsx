@@ -61,7 +61,12 @@ const Form: React.FC = () => {
 
   return (
     <Container>
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography
+        variant="h4"
+        align="center"
+        sx={{ paddingTop: "50px" }}
+        gutterBottom
+      >
         Bank Account Registration
       </Typography>
       <form onSubmit={formik.handleSubmit}>
@@ -214,6 +219,7 @@ const Form: React.FC = () => {
           </Grid>
           <Grid item xs={12}>
             <FormControlLabel
+              required
               control={
                 <Checkbox
                   name="agreeToTerms"
