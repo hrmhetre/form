@@ -1,7 +1,5 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import Form from "./conponent/Form";
+import Form from "./component/Form";
 
 function App() {
   return (
